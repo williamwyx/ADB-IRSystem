@@ -7,6 +7,23 @@ import java.util.HashMap;
 import java.util.List;
 
 public class EntityProperties {
+
+    public HashMap<String, List<String>> getTypes(){
+        return types;
+    }
+
+    public HashMap<String, List<String>> getSubTypes(){
+        return subTypes;
+    }
+
+    public HashMap<String, String> getFBTypes(){
+        return FBTypes;
+    }
+
+    public HashMap<String, String> getFBProperties(){
+        return FBProperties;
+    }
+
 	private static final HashMap<String, List<String>> types = new HashMap<String, List<String>>() {
 		{
 			put("Person",
