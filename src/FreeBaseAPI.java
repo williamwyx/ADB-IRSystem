@@ -1,10 +1,9 @@
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Properties;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -19,8 +18,18 @@ public class FreeBaseAPI {
 	public static Properties properties = new Properties();
 
 	public void infobox(String query) {
-		getFBKey();
-		JSONArray topics = searchFB(query);
+		try {
+			// getFBKey();
+			JSONArray topics = searchFB(query);
+			for (int i = 0; i < topics.length(); i++) {
+				String mid = topics.getJSONObject(i).getString("mid");
+				int ret = topicFB(mid);
+				if (ret == 1)
+					break;
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	private void getFBKey() {
@@ -41,16 +50,20 @@ public class FreeBaseAPI {
 			GenericUrl url = new GenericUrl(
 					"https://www.googleapis.com/freebase/v1/search");
 			url.put("query", URLEncoder.encode(query, "UTF-8"));
-			//url.put("key", properties.get("API_KEY"));
+			// url.put("key", properties.get("API_KEY"));
 			HttpRequest request = requestFactory.buildGetRequest(url);
 			HttpResponse httpResponse = request.execute();
 			JSONObject response = new JSONObject(new JSONTokener(
 					httpResponse.parseAsString()));
-			System.out.println(response.toString());
+			//System.out.println(response.toString());
 			results = response.getJSONArray("result");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return results;
+	}
+
+	private int topicFB(String mid) {
+		return 1;
 	}
 }
