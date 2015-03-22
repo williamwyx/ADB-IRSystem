@@ -1,5 +1,6 @@
 import java.io.FileInputStream;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Properties;
 
 import org.json.JSONArray;
@@ -23,8 +24,7 @@ public class FreeBaseAPI {
 			JSONArray topics = searchFB(query);
 			for (int i = 0; i < topics.length(); i++) {
 				String mid = topics.getJSONObject(i).getString("mid");
-				int ret = topicFB(mid);
-				if (ret == 1)
+				if (topicFB(mid))
 					break;
 			}
 		} catch (Exception ex) {
@@ -63,7 +63,7 @@ public class FreeBaseAPI {
 		return results;
 	}
 
-	private int topicFB(String mid) {
+	private boolean topicFB(String mid) {
 		try {
 			HttpTransport httpTransport = new NetHttpTransport();
 			HttpRequestFactory requestFactory = httpTransport
@@ -75,9 +75,25 @@ public class FreeBaseAPI {
 			JSONObject response = new JSONObject(new JSONTokener(
 					httpResponse.parseAsString()));
 			System.out.println(response.toString());
+			return parseAndPrint(response);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		return 1;
+		return false;
+	}
+	
+	private boolean parseAndPrint(JSONObject entity) throws JSONException {
+		// Check if this entity has types we are interested
+		boolean ret = false;
+		HashMap<String, String> FBTypes = EntityProperties.getFBTypes();
+		JSONArray entityTypes = entity.getJSONObject("/type/object/type").getJSONArray("values");
+		for (int i = 0; i < entityTypes.length(); i++) {
+			String typePath = entityTypes.getJSONObject(0).getString("id");
+			if (FBTypes.containsKey(typePath)) {
+				ret = true;
+				
+			}
+		}
+		return ret;
 	}
 }
