@@ -19,13 +19,17 @@ public class FreeBaseAPI {
 	public static Properties properties = new Properties();
 
 	public void infobox(String query) {
+		getFBKey();
+		JSONArray topics = searchFB(query);
+	}
+	
+	private void getFBKey() {
 		try {
 			properties.load(new FileInputStream(
 					"../Properties/freebase.properties"));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		JSONArray topics = searchFB(query);
 	}
 
 	private JSONArray searchFB(String query) {
@@ -37,7 +41,7 @@ public class FreeBaseAPI {
 			GenericUrl url = new GenericUrl(
 					"https://www.googleapis.com/freebase/v1/search");
 			url.put("query", URLEncoder.encode(query, "UTF-8"));
-			url.put("key", properties.get("API_KEY"));
+			//url.put("key", properties.get("API_KEY"));
 			HttpRequest request = requestFactory.buildGetRequest(url);
 			HttpResponse httpResponse = request.execute();
 			JSONObject response = new JSONObject(new JSONTokener(
