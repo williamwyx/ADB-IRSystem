@@ -64,6 +64,20 @@ public class FreeBaseAPI {
 	}
 
 	private int topicFB(String mid) {
+		try {
+			HttpTransport httpTransport = new NetHttpTransport();
+			HttpRequestFactory requestFactory = httpTransport
+					.createRequestFactory();
+			GenericUrl url = new GenericUrl(
+					"https://www.googleapis.com/freebase/v1/topic" + mid);
+			HttpRequest request = requestFactory.buildGetRequest(url);
+			HttpResponse httpResponse = request.execute();
+			JSONObject response = new JSONObject(new JSONTokener(
+					httpResponse.parseAsString()));
+			System.out.println(response.toString());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return 1;
 	}
 }
