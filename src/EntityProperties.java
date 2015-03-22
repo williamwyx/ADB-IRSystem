@@ -8,19 +8,19 @@ import java.util.List;
 
 public class EntityProperties {
 
-    public HashMap<String, List<String>> getTypes(){
+    public static HashMap<String, List<String>> getTypes(){
         return types;
     }
 
-    public HashMap<String, List<String>> getSubTypes(){
+    public static HashMap<String, List<String>> getSubTypes(){
         return subTypes;
     }
 
-    public HashMap<String, String> getFBTypes(){
+    public static HashMap<String, String> getFBTypes(){
         return FBTypes;
     }
 
-    public HashMap<String, String> getFBProperties(){
+    public static HashMap<String, String> getFBProperties(){
         return FBProperties;
     }
 
