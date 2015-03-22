@@ -27,13 +27,18 @@ public class EntityProperties {
 			put("Sports Team",
 					new ArrayList<String>(Arrays
 							.asList("Name", "Description", "Sport", "Arena",
-									"Championships", "Coaches", "Founded",
-									"Leagues", "Locations", "Players Roster")));
+                                    "Championships", "Coaches", "Founded",
+                                    "Leagues", "Locations", "Players Roster")));
 		}
 	};
 	
-	private static final HashMap<String, String> subTypes = new HashMap<String, String>() {
+	private static final HashMap<String, List<String>> subTypes = new HashMap<String, List<String>>() {
 		{
+            put("Actor?Films", new ArrayList<String>(Arrays.asList("character", "Film Name")));
+            put("Business Person?Leadership", new ArrayList<String>(Arrays.asList("Organization", "Role", "Title", "From-To")));
+            put("Business Person?Board Member", new ArrayList<String>(Arrays.asList("Organization", "Role", "Title", "From-To")));
+            put("Sports Team?Coaches", new ArrayList<String>(Arrays.asList("Name", "Position", "From-To")));
+            put("Sports Team?Players Roster", new ArrayList<String>(Arrays.asList("Name", "Position", "Number", "From-To")));
 		}
 	};
 
