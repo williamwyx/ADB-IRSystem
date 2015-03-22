@@ -75,11 +75,11 @@ public class EntityProperties {
 			put("Author?Influenced", "/influence/influence_node/influenced_by");
 			// Actor
 			put("Actor?Films", "/film/actor/film");
-			//Business Person
+			// Business Person
             put("Business Person?Leadership", "/business/board_member/leader_of");
             put("Business Person?Board Member", "/business/board_member/organization_board_memberships");
             put("Business Person?Founded", "/organization/organization_founder/organizations_founded");
-            //League
+            // League
             put("League?Name", "/type/object/name");
             put("League?Championship", "/sports/sports_league/championship");
             put("League?Sport", "/sports/sports_league/sport");
@@ -87,7 +87,7 @@ public class EntityProperties {
             put("League?Official Website", "/common/topic/official_website");
             put("League?Description", "/common/topic/description");
             put("League?Teams", "/sports/sports_league/teams");
-            //Sports Team
+            // Sports Team
             put("Sports Team?Name", "/type/object/name");
             put("Sports Team?Description", "/common/topic/description");
             put("Sports Team?Sport", "/sports/sports_team/sport");
@@ -98,6 +98,24 @@ public class EntityProperties {
             put("Sports Team?Leagues", "/sports/sports_team/league");
             put("Sports Team?Locations", "/sports/sports_team/location");
             put("Sports Team?Players Roster", "/sports/sports_team/roster");
+            // Sub-Types
+            put("Actor?Films?Characters", "/film/performance/character");
+            put("Actor?Films?Film Name", "/film/performance/film");
+            put("Business Person?Leadership?Organization", "/organization/leadership/organization");
+            put("Business Person?Leadership?Role", "/organization/leadership/role");
+            put("Business Person?Leadership?Title", "/organization/leadership/title");
+            put("Business Person?Leadership?From-To", "/organization/leadership/from");
+            put("Business Person?Board Member?Organization", "/organization/organization_board_membership/organization");
+            put("Business Person?Board Member?Role", "/organization/organization_board_membership/role");
+            put("Business Person?Board Member?Title", "/organization/organization_board_membership/title");
+            put("Business Person?Board Member?From-To", "/organization/organization_board_membership/from");
+            put("Sports Team?Coaches?Name", "/sports/sports_team_coach_tenure/coach");
+            put("Sports Team?Coaches?Position", "/sports/sports_team_coach_tenure/position");
+            put("Sports Team?Coaches?From-To", "/sports/sports_team_coach_tenure/from");
+            put("Sports Team?Players Roster?Name", "/sports/sports_team_roster/player");
+            put("Sports Team?Players Roster?Position", "/sports/sports_team_roster/position");
+            put("Sports Team?Players Roster?Number", "/sports/sports_team_roster/number");
+            put("Sports Team?Players Roster?From-To", "/sports/sports_team_roster/from");
 		}
 	};
 }
