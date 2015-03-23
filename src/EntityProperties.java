@@ -89,7 +89,7 @@ public class EntityProperties {
 			put("Author?Books", "/book/author/works_written");
 			put("Author?Books About", "/book/book_subject/works");
 			put("Author?Influenced", "/influence/influence_node/influenced");
-			put("Author?Influenced", "/influence/influence_node/influenced_by");
+			put("Author?Influenced by", "/influence/influence_node/influenced_by");
 			// Actor
 			put("Actor?Films", "/film/actor/film");
 			// Business Person

@@ -141,21 +141,24 @@ public class FreeBaseAPI {
 						.getJSONObject(FBProperty).getJSONArray("values");
 				// Check if this property has subtypes
 				if (subTypes.containsKey(iType + "?" + typeProperty)) {
-					
 					for (int i = 0; i < propertyInfo.length(); i++) {
+						if (typeProperty.equals("Board Member")) {
+							int a = 1;
+						}
 						ArrayList<String> values = new ArrayList<String>();
 						// List of subtype names
 						List<String> entitySubTypes = subTypes.get(iType + "?" + typeProperty);
 						for (String entitySubType : entitySubTypes) {
-							JSONArray subInfo = propertyInfo.getJSONObject(i).getJSONObject("property").getJSONObject(entitySubType).getJSONArray("values");
+							String subTypePath = FBProperties.get(iType + "?" + typeProperty + "?" + entitySubType);
+							JSONArray subInfo = propertyInfo.getJSONObject(i).getJSONObject("property").getJSONObject(subTypePath).getJSONArray("values");
 							StringBuilder value = new StringBuilder();
-							for (int j = 0; j < subInfo.length(); i++) {
+							for (int j = 0; j < subInfo.length(); j++) {
 								String tmp = null;
-								if (subInfo.getJSONObject(i).has("value")) {
-									tmp = propertyInfo.getJSONObject(i).getString(
+								if (subInfo.getJSONObject(j).has("value")) {
+									tmp = subInfo.getJSONObject(j).getString(
 											"value");
 								} else {
-									tmp = propertyInfo.getJSONObject(i).getString(
+									tmp = subInfo.getJSONObject(j).getString(
 											"text");
 								}
 								if (j > 0)
@@ -165,6 +168,7 @@ public class FreeBaseAPI {
 							values.add(value.toString());
 						}
 						if (i == 0) {
+							ipr.print();
 							ipr.print(typeProperty, entitySubTypes);
 							ipr.print82();
 						}
