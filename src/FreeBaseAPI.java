@@ -119,6 +119,7 @@ public class FreeBaseAPI {
 					displayInfo(entity, interestedType);
 				}
 			}
+			ipr.print();
 		}
 		return ret;
 	}
@@ -142,9 +143,6 @@ public class FreeBaseAPI {
 				// Check if this property has subtypes
 				if (subTypes.containsKey(iType + "?" + typeProperty)) {
 					for (int i = 0; i < propertyInfo.length(); i++) {
-						if (typeProperty.equals("Board Member")) {
-							int a = 1;
-						}
 						ArrayList<String> values = new ArrayList<String>();
 						// List of subtype names
 						List<String> entitySubTypes = subTypes.get(iType + "?"
@@ -152,25 +150,48 @@ public class FreeBaseAPI {
 						for (String entitySubType : entitySubTypes) {
 							String subTypePath = FBProperties.get(iType + "?"
 									+ typeProperty + "?" + entitySubType);
-							JSONArray subInfo = propertyInfo.getJSONObject(i)
-									.getJSONObject("property")
-									.getJSONObject(subTypePath)
-									.getJSONArray("values");
-							StringBuilder value = new StringBuilder();
-							for (int j = 0; j < subInfo.length(); j++) {
-								String tmp = null;
-								if (subInfo.getJSONObject(j).has("value")) {
-									tmp = subInfo.getJSONObject(j).getString(
-											"value");
-								} else {
-									tmp = subInfo.getJSONObject(j).getString(
-											"text");
+							if (propertyInfo.getJSONObject(i)
+									.getJSONObject("property").has(subTypePath)) {
+								JSONArray subInfo = propertyInfo
+										.getJSONObject(i)
+										.getJSONObject("property")
+										.getJSONObject(subTypePath)
+										.getJSONArray("values");
+								StringBuilder value = new StringBuilder();
+								for (int j = 0; j < subInfo.length(); j++) {
+									String tmp = null;
+									if (subInfo.getJSONObject(j).has("value")) {
+										tmp = subInfo.getJSONObject(j)
+												.getString("value");
+									} else {
+										tmp = subInfo.getJSONObject(j)
+												.getString("text");
+									}
+									if (j > 0)
+										value.append(", ");
+									value.append(tmp);
 								}
-								if (j > 0)
-									value.append(", ");
-								value.append(tmp);
+								if (subTypePath.endsWith("from")) {
+									String toPath = subTypePath.substring(0,
+											subTypePath.length() - 4) + "to";
+									if (propertyInfo.getJSONObject(i)
+											.getJSONObject("property")
+											.has(toPath)) {
+										JSONArray toInfo = propertyInfo
+												.getJSONObject(i)
+												.getJSONObject("property")
+												.getJSONObject(toPath)
+												.getJSONArray("values");
+										value.append("/" + toInfo.getJSONObject(0)
+												.getString("text"));
+									} else {
+										value.append("/now");
+									}
+								}
+								values.add(value.toString());
+							} else {
+								values.add("");
 							}
-							values.add(value.toString());
 						}
 						if (i == 0) {
 							ipr.print();
@@ -216,7 +237,6 @@ public class FreeBaseAPI {
 				}
 			} catch (JSONException e) {
 			}
-
 		}
 	}
 }
