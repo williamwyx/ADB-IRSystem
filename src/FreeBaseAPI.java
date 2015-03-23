@@ -147,10 +147,15 @@ public class FreeBaseAPI {
 						}
 						ArrayList<String> values = new ArrayList<String>();
 						// List of subtype names
-						List<String> entitySubTypes = subTypes.get(iType + "?" + typeProperty);
+						List<String> entitySubTypes = subTypes.get(iType + "?"
+								+ typeProperty);
 						for (String entitySubType : entitySubTypes) {
-							String subTypePath = FBProperties.get(iType + "?" + typeProperty + "?" + entitySubType);
-							JSONArray subInfo = propertyInfo.getJSONObject(i).getJSONObject("property").getJSONObject(subTypePath).getJSONArray("values");
+							String subTypePath = FBProperties.get(iType + "?"
+									+ typeProperty + "?" + entitySubType);
+							JSONArray subInfo = propertyInfo.getJSONObject(i)
+									.getJSONObject("property")
+									.getJSONObject(subTypePath)
+									.getJSONArray("values");
 							StringBuilder value = new StringBuilder();
 							for (int j = 0; j < subInfo.length(); j++) {
 								String tmp = null;
