@@ -51,7 +51,7 @@ public class EntityProperties {
 	
 	private static final HashMap<String, List<String>> subTypes = new HashMap<String, List<String>>() {
 		{
-            put("Actor?Films", new ArrayList<String>(Arrays.asList("character", "Film Name")));
+            put("Actor?Films", new ArrayList<String>(Arrays.asList("Character", "Film Name")));
             put("Business Person?Leadership", new ArrayList<String>(Arrays.asList("Organization", "Role", "Title", "From-To")));
             put("Business Person?Board Member", new ArrayList<String>(Arrays.asList("Organization", "Role", "Title", "From-To")));
             put("Sports Team?Coaches", new ArrayList<String>(Arrays.asList("Name", "Position", "From-To")));
