@@ -37,6 +37,57 @@ public class FreeBaseAPI {
 		}
 	}
 
+    public boolean QandA(String query){
+        query = query.toLowerCase();
+        if(!query.startsWith("who created "))
+            return false;
+
+        query = query.substring(12);
+        /**
+         * Create query for author.
+         */
+        StringBuilder queryAuthor = new StringBuilder();
+        queryAuthor.append("[{" +
+                "\"/book/author/works_written\": [{" +
+                "\"a:name\": null," +
+                "\"name~=\": \"");
+        queryAuthor.append(query + "\"");
+        queryAuthor.append("}]," +
+                "\"id\": null," +
+                "\"name\": null," +
+                "\"type\": \"/book/author\"" +
+                "}]");
+        System.out.println(queryAuthor.toString());
+        /**
+         * Create query for business man.
+         */
+        StringBuilder queryBusiness = new StringBuilder();
+        queryAuthor.append("[{" +
+                "\"/organization/organization_founder/organizations_founded\": [{" +
+                "\"a:name\": null," +
+                "\"name~=\": \"");
+        queryAuthor.append(query + "\"");
+        queryAuthor.append("}]," +
+                "\"id\": null," +
+                "\"name\": null," +
+                "\"type\": \"/organization/organization_founder\"" +
+                "}]");
+
+        //JSONArray Authors = queryFB(queryAuthor.toString());
+        String lisa = "[{" +
+                "\"/visual_art/visual_artist/artworks\": [{" +
+                "\"a:name\": null," +
+                "\"name~=\": \"Mona Lisa\"" +
+                "}]," +
+                "\"id\": null," +
+                "\"name\": null," +
+                "\"type\": \"/visual_art/visual_artist\"" +
+                "}]";
+        System.out.println(lisa);
+        queryFB(queryAuthor.toString());
+        return true;
+    }
+
 	private void getFBKey() {
 		try {
 			properties.load(new FileInputStream(
@@ -45,6 +96,29 @@ public class FreeBaseAPI {
 			ex.printStackTrace();
 		}
 	}
+
+    private JSONArray queryFB(String query){
+        JSONArray results = null;
+        try {
+            HttpTransport httpTransport = new NetHttpTransport();
+            HttpRequestFactory requestFactory = httpTransport
+                    .createRequestFactory();
+            GenericUrl url = new GenericUrl(
+                    "https://www.googleapis.com/freebase/v1/mqlread");
+            url.put("query", query);
+            url.put("key", properties.get("API_KEY"));
+            System.out.println(url.toURL());
+            HttpRequest request = requestFactory.buildGetRequest(url);
+            HttpResponse httpResponse = request.execute();
+            JSONObject response = new JSONObject(new JSONTokener(
+                    httpResponse.parseAsString()));
+            // System.out.println(response.toString());
+            results = response.getJSONArray("result");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return results;
+    }
 
 	private JSONArray searchFB(String query) {
 		JSONArray results = null;
