@@ -84,7 +84,8 @@ public class FreeBaseAPI {
                 "\"type\": \"/visual_art/visual_artist\"" +
                 "}]";
         System.out.println(lisa);
-        queryFB(queryAuthor.toString());
+        queryFB(lisa);
+        //queryFB(queryAuthor.toString());
         return true;
     }
 
