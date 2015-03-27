@@ -1,4 +1,5 @@
 import java.io.FileInputStream;
+import java.lang.reflect.Array;
 import java.net.URLEncoder;
 import java.util.*;
 
@@ -41,8 +42,11 @@ public class FreeBaseAPI {
         query = query.toLowerCase();
         if(!query.startsWith("who created "))
             return false;
-
-        query = query.substring(12);
+        //check if query contains '?'
+        if(query.contains("?") && (query.lastIndexOf('?') == query.length()-1))
+            query = query.substring(12, query.length()-1);
+        else
+            query = query.substring(12);
         /**
          * Create query for author.
          */
@@ -57,35 +61,62 @@ public class FreeBaseAPI {
                 "\"name\": null," +
                 "\"type\": \"/book/author\"" +
                 "}]");
-        System.out.println(queryAuthor.toString());
+        //System.out.println(queryAuthor.toString());
         /**
          * Create query for business man.
          */
         StringBuilder queryBusiness = new StringBuilder();
-        queryAuthor.append("[{" +
+        queryBusiness.append("[{" +
                 "\"/organization/organization_founder/organizations_founded\": [{" +
                 "\"a:name\": null," +
                 "\"name~=\": \"");
-        queryAuthor.append(query + "\"");
-        queryAuthor.append("}]," +
+        queryBusiness.append(query + "\"");
+        queryBusiness.append("}]," +
                 "\"id\": null," +
                 "\"name\": null," +
                 "\"type\": \"/organization/organization_founder\"" +
                 "}]");
 
-        //JSONArray Authors = queryFB(queryAuthor.toString());
-        String lisa = "[{" +
-                "\"/visual_art/visual_artist/artworks\": [{" +
-                "\"a:name\": null," +
-                "\"name~=\": \"Mona Lisa\"" +
-                "}]," +
-                "\"id\": null," +
-                "\"name\": null," +
-                "\"type\": \"/visual_art/visual_artist\"" +
-                "}]";
-        System.out.println(lisa);
-        queryFB(lisa);
-        //queryFB(queryAuthor.toString());
+        JSONArray authors = queryFB(queryAuthor.toString());
+        JSONArray businessPerson = queryFB(queryBusiness.toString());
+        if(authors.length() == 0 && businessPerson.length() == 0) {
+            System.out.println("It seems no one created " + query + "!!!");
+            return true;
+        }
+        if(authors.length() > 0)
+            extractAnswers(authors, "authors");
+        if(authors.length() > 0)
+            extractAnswers(authors, "businessman");
+
+        return true;
+    }
+
+    private boolean extractAnswers(JSONArray answerArray, String type){
+        HashMap<String, ArrayList<String>> answerHashMap = new HashMap<String, ArrayList<String>>(); //Key is author name or business name. arraylist stores books name or organization's name
+
+        for(int i = 0; i < answerArray.length(); i++) {
+            try {
+                JSONObject entry = answerArray.getJSONObject(i);
+                answerHashMap.put(entry.getString("name"), new ArrayList<String>()); //put the key into answers
+                /**
+                 * check the type and then put the book name or organization name into answers
+                 */
+                JSONArray names = null;
+                if(type.equals("authors"))
+                    names = entry.getJSONArray("/book/author/works_written");
+                if(type.equals("businessman"))
+                    names = entry.getJSONArray("/organization/organization_founder/organizations_founded");
+                ArrayList<String> nameList = answerHashMap.get(entry.getString("name"));
+                for(int j = 0; j < names.length(); j++){
+                    JSONObject tmp = names.getJSONObject(j);
+                    nameList.add(tmp.getString("a:name"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        TreeMap<String, ArrayList<String>> answerTreeMap = new TreeMap<String, ArrayList<String>>(answerHashMap);
+
         return true;
     }
 
@@ -108,7 +139,6 @@ public class FreeBaseAPI {
                     "https://www.googleapis.com/freebase/v1/mqlread");
             url.put("query", query);
             url.put("key", properties.get("API_KEY"));
-            System.out.println(url.toURL());
             HttpRequest request = requestFactory.buildGetRequest(url);
             HttpResponse httpResponse = request.execute();
             JSONObject response = new JSONObject(new JSONTokener(
