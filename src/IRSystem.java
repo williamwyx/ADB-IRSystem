@@ -34,10 +34,10 @@ public class IRSystem {
 				interactiveMode();
 				break;
 			case 1:
-				fb.infobox(args[3]);
+				fb.infobox(args[3].trim());
 				break;
 			case 2:
-				fb.QandA(args[3]);
+				fb.QandA(args[3].trim());
 				break;
 			case 3:
 				fstream = new FileInputStream(args[3]);
@@ -78,7 +78,7 @@ public class IRSystem {
 		
 		while(true) {
 			promt();
-		    String query = scanner.nextLine().toLowerCase();
+		    String query = scanner.nextLine().toLowerCase().trim();
 		    
 		    if (query.equals("_exit_")) {
 		    	System.out.println("Good Bye!");

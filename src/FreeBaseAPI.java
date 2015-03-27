@@ -1,7 +1,12 @@
 import java.io.FileInputStream;
-import java.lang.reflect.Array;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.TreeMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,13 +31,16 @@ public class FreeBaseAPI {
 
 	public void infobox(String query) {
 		try {
-			//getFBKey();
 			JSONArray topics = searchFB(query);
-			for (int i = 0; i < topics.length(); i++) {
+			int i;
+			for (i = 0; i < topics.length(); i++) {
 				String mid = topics.getJSONObject(i).getString("mid");
 				if (topicFB(mid))
 					break;
 			}
+			if (i == topics.length())
+				System.out.println("No related information about query [" + query + "] was found!");
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
