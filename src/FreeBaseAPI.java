@@ -83,15 +83,16 @@ public class FreeBaseAPI {
             System.out.println("It seems no one created " + query + "!!!");
             return true;
         }
+        TreeMap<String, ArrayList<String>> authorsMap = null, businessMap = null;
         if(authors.length() > 0)
-            extractAnswers(authors, "authors");
+            authorsMap = extractAnswers(authors, "authors");
         if(authors.length() > 0)
-            extractAnswers(authors, "businessman");
-
+            businessMap = extractAnswers(businessPerson, "businessman");
+        QandAPrinter.printAnswer(authorsMap, businessMap);
         return true;
     }
 
-    private boolean extractAnswers(JSONArray answerArray, String type){
+    private TreeMap<String, ArrayList<String>> extractAnswers(JSONArray answerArray, String type){
         HashMap<String, ArrayList<String>> answerHashMap = new HashMap<String, ArrayList<String>>(); //Key is author name or business name. arraylist stores books name or organization's name
 
         for(int i = 0; i < answerArray.length(); i++) {
@@ -116,8 +117,7 @@ public class FreeBaseAPI {
             }
         }
         TreeMap<String, ArrayList<String>> answerTreeMap = new TreeMap<String, ArrayList<String>>(answerHashMap);
-
-        return true;
+        return answerTreeMap;
     }
 
 	private void getFBKey() {

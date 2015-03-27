@@ -16,9 +16,9 @@ public class IRSystem {
 		
 		//String query = "Bill Gates";
 		//fb.infobox(query);
-        //fb.QandA("Who created microsoft");
-		IRSystem fbSys = new IRSystem();
-		fbSys.startSystem(args);
+        fb.QandA("Who created microsoft");
+		//IRSystem fbSys = new IRSystem();
+		//fbSys.startSystem(args);
 	}
 	
 	public void startSystem(String[] args) throws IOException {
