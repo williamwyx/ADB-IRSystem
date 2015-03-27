@@ -16,16 +16,20 @@ public class IRSystem {
 		
 		//String query = "Bill Gates";
 		//fb.infobox(query);
-        fb.QandA("Who created microsoft");
-		//IRSystem fbSys = new IRSystem();
-		//fbSys.startSystem(args);
+        //fb.QandA("Who created microsoft");
+		IRSystem fbSys = new IRSystem();
+		fbSys.startSystem(args);
 	}
 	
 	public void startSystem(String[] args) throws IOException {
 		int type = checkArgs(args);
+		if (type != -1)
+			fb.setFBKey(args[1]);
 		FileInputStream fstream;
 		
 		switch (type) {
+			case -1:
+				break;
 			case 0:
 				interactiveMode();
 				break;
@@ -68,12 +72,18 @@ public class IRSystem {
 	
 	private void interactiveMode() {
 		System.out.println("Welcome to infoxbox creator using Freebase knowledge graph.");
-		System.out.println("Feel curious? Start exploring...\n");
+		System.out.println("Feel curious? Start exploring...");
+		System.out.println("(To exit the system, just type: _exit_)\n");
 		Scanner scanner = new Scanner(System.in);
 		
 		while(true) {
 			promt();
 		    String query = scanner.nextLine().toLowerCase();
+		    
+		    if (query.equals("_exit_")) {
+		    	System.out.println("Good Bye!");
+		    	break;
+		    }
 		    
 		    if (query.startsWith("who created ")) {
 		    	System.out.println("Let me see...");
@@ -85,6 +95,8 @@ public class IRSystem {
 		    	System.out.println("\n");
 		    }
 		}
+		
+		scanner.close();
 	}
 	
 	private void promt() {

@@ -26,7 +26,7 @@ public class FreeBaseAPI {
 
 	public void infobox(String query) {
 		try {
-			getFBKey();
+			//getFBKey();
 			JSONArray topics = searchFB(query);
 			for (int i = 0; i < topics.length(); i++) {
 				String mid = topics.getJSONObject(i).getString("mid");
@@ -120,7 +120,12 @@ public class FreeBaseAPI {
         return answerTreeMap;
     }
 
-	private void getFBKey() {
+
+    public void setFBKey(String key) {
+    	properties.setProperty("API_KEY", key);
+    }
+    
+	private void setFBKeyFromFile() {
 		try {
 			properties.load(new FileInputStream(
 					"../Properties/freebase.properties"));
@@ -185,7 +190,7 @@ public class FreeBaseAPI {
 			HttpResponse httpResponse = request.execute();
 			JSONObject response = new JSONObject(new JSONTokener(
 					httpResponse.parseAsString()));
-			// System.out.println(response.toString());
+			//System.out.println(response.toString());
 			return parseAndDisplay(response);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -281,7 +286,10 @@ public class FreeBaseAPI {
 											subTypePath.length() - 4) + "to";
 									if (propertyInfo.getJSONObject(i)
 											.getJSONObject("property")
-											.has(toPath)) {
+											.has(toPath) && propertyInfo
+											.getJSONObject(i)
+											.getJSONObject("property")
+											.getJSONObject(toPath).getInt("count") > 0) {
 										JSONArray toInfo = propertyInfo
 												.getJSONObject(i)
 												.getJSONObject("property")
@@ -322,6 +330,12 @@ public class FreeBaseAPI {
 							content = propertyInfo.getJSONObject(i)
 									.getJSONObject("property")
 									.getJSONObject("/people/marriage/spouse")
+									.getJSONArray("values").getJSONObject(0)
+									.getString("text");
+						} else if (FBProperty.equals("/sports/sports_team/league")) {
+							content = propertyInfo.getJSONObject(i)
+									.getJSONObject("property")
+									.getJSONObject("/sports/sports_league_participation/league")
 									.getJSONArray("values").getJSONObject(0)
 									.getString("text");
 						} else if (propertyInfo.getJSONObject(i).has("value")) {
