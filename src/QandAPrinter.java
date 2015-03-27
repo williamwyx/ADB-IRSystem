@@ -4,10 +4,18 @@
 import java.util.*;
 public class QandAPrinter {
     public static void printAnswer(TreeMap<String, ArrayList<String>> authorMap, TreeMap<String, ArrayList<String>> businessMap){
-        Iterator<Map.Entry<String, ArrayList<String>>> authorIter = authorMap.entrySet().iterator();
-        Iterator<Map.Entry<String, ArrayList<String>>> businessIter = businessMap.entrySet().iterator();
-        Map.Entry<String, ArrayList<String>> aEntry = authorIter.next();
-        Map.Entry<String, ArrayList<String>> bEntry = businessIter.next();
+        Iterator<Map.Entry<String, ArrayList<String>>> authorIter = null;
+        Map.Entry<String, ArrayList<String>> aEntry = null;
+        if(authorMap != null) {
+            authorIter = authorMap.entrySet().iterator();
+            aEntry = authorIter.next();
+        }
+        Iterator<Map.Entry<String, ArrayList<String>>> businessIter = null;
+        Map.Entry<String, ArrayList<String>> bEntry = null;
+        if(businessMap != null){
+            businessIter = businessMap.entrySet().iterator();
+            bEntry = businessIter.next();
+        }
         int count = 1;
         while(aEntry != null && bEntry != null){
             //Author name is smaller than business man name
@@ -72,7 +80,7 @@ public class QandAPrinter {
         for(int i=1; i < nameList.size(); i++)
             output.append(", <" + nameList.get(i) + ">");
         output.append("\n");
-        System.out.println(output.toString());
+        System.out.print(output.toString());
     }
 
     private static void printBusiness(Map.Entry<String, ArrayList<String>> bEntry, int count){
@@ -83,6 +91,6 @@ public class QandAPrinter {
         for(int i=1; i < nameList.size(); i++)
             output.append(", <" + nameList.get(i) + ">");
         output.append("\n");
-        System.out.println(output.toString());
+        System.out.print(output.toString());
     }
 }

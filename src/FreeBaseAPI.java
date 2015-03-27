@@ -39,9 +39,12 @@ public class FreeBaseAPI {
 	}
 
     public boolean QandA(String query){
+        query = query.trim();
         query = query.toLowerCase();
-        if(!query.startsWith("who created "))
+        if(!query.startsWith("who created ")) {
+            System.out.println("Wrong questions!!!");
             return false;
+        }
         //check if query contains '?'
         if(query.contains("?") && (query.lastIndexOf('?') == query.length()-1))
             query = query.substring(12, query.length()-1);
@@ -80,13 +83,13 @@ public class FreeBaseAPI {
         JSONArray authors = queryFB(queryAuthor.toString());
         JSONArray businessPerson = queryFB(queryBusiness.toString());
         if(authors.length() == 0 && businessPerson.length() == 0) {
-            System.out.println("It seems no one created " + query + "!!!");
+            System.out.println("It seems no one created [" + query + "]!!!");
             return true;
         }
         TreeMap<String, ArrayList<String>> authorsMap = null, businessMap = null;
         if(authors.length() > 0)
             authorsMap = extractAnswers(authors, "authors");
-        if(authors.length() > 0)
+        if(businessPerson.length() > 0)
             businessMap = extractAnswers(businessPerson, "businessman");
         QandAPrinter.printAnswer(authorsMap, businessMap);
         return true;
