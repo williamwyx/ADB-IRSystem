@@ -1,7 +1,7 @@
 =====================================================
 a) Name and UNI
 
-Name: Qiuyang Shen, Yuxuan Wang				
+Name: Qiuyang Shen, Yuxuan Wang		
 UNI: qs2147, yw2666
 
 
@@ -38,13 +38,18 @@ c) How to run the program
 
 =====================================================
 d) Internal Design
-The system has two major parts. One is creating inforbox according to query. Another one is Question Answering.
+The system has two major parts. One is creating infobox according to query. Another one is Question Answering.
 
-Inforbox Creation
-你写这部分。。
+Infobox Creation:
+	1. The implementation lies in two classes FreeBaseAPI and InfoboxPrinter.
+	2. The query string is passed to a methoed called infobox in FreeBaseAPI class as input parameter.
+	3. We use Freebase search API to get a list of mid. The function is called searchFB.
+	4. For each mid in order, we use Freebase topic API to get information related to this mid. The function is called topicFB and parseAndDisplay.
+	5. We first check if the types of this entity have overlaps with our interests. If so, we call a function called displayInfo and use the mapping decribed later to generate an infobox. We make the printing process as general as possible and deal with some special cases to mimic the format of reference implementation.
+	6. Only the first valid entity will be printed.
 
-Question Answering.
-	1. The implementaion lies in two class, FreeBaseAPI and QandAPrinter. 
+Question Answering:
+	1. The implementaion lies in two classes, FreeBaseAPI and QandAPrinter. 
 	2. The query string is passed to a methoed called QandA in FreeBaseAPI class as input parameter. I first check if the query is valid. 
 	3. Then I create two JSON objects to query FreeBase. One object queries Author, one boject queries BusinessPerson. 
 	4. After getting the JSONArray returned by FreeBase, I pass them to a method called extractAnswers to extract the information we need. 
@@ -92,7 +97,7 @@ The mapping that I use to map from Freebase properties to the entity properties 
 	("Sports Team?Locations", "/sports/sports_team/location");
 	("Sports Team?Players Roster", "/sports/sports_team/roster");
 	// Sub-Types
-	("Actor?Films?Characters", "/film/performance/character");
+	("Actor?Films?Character", "/film/performance/character");
 	("Actor?Films?Film Name", "/film/performance/film");
 	("Business Person?Leadership?Organization", "/organization/leadership/organization");
 	("Business Person?Leadership?Role", "/organization/leadership/role");
