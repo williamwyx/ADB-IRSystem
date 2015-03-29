@@ -1,12 +1,12 @@
 =====================================================
-a. Name and UNI
+a) Name and UNI
 
 Name: Qiuyang Shen, Yuxuan Wang				
 UNI: qs2147, yw2666
 
 
 =====================================================
-b. List of Files
+b) List of Files
 ├── bin
 │   ├── EntityProperties$1.class
 │   ├── EntityProperties$2.class
@@ -32,18 +32,24 @@ b. List of Files
     └── QandAPrinter.java
 
 =====================================================
-c. How to run the program
+c) How to run the program
+就是如何使用run.sh 你写一下吧
 
 
 =====================================================
-d. Internal Design
+d) Internal Design
 The system has two major parts. One is creating inforbox according to query. Another one is Question Answering.
 
 Inforbox Creation
 你写这部分。。
 
 Question Answering.
-The implementaion lies in two class, FreeBaseAPI and QandAPrinter. The query string is passed to a methoed called QandA in FreeBaseAPI class as input parameter. I first check if the query is valid. Then I create two JSON objects to query FreeBase. One object queries Author, one boject queries BusinessPerson. After getting the JSONArray returned by FreeBase, I pass them to a method called extractAnswers to extract the information we need. The extractAnswers method return a ordered TreeMap whose key is the name of author or businessman, value is a list containing the books or organization that person created. Finally I pass the two TreeMap to class QandAPrinter to output formated result. 
+	1. The implementaion lies in two class, FreeBaseAPI and QandAPrinter. 
+	2. The query string is passed to a methoed called QandA in FreeBaseAPI class as input parameter. I first check if the query is valid. 
+	3. Then I create two JSON objects to query FreeBase. One object queries Author, one boject queries BusinessPerson. 
+	4. After getting the JSONArray returned by FreeBase, I pass them to a method called extractAnswers to extract the information we need. 
+	5. The extractAnswers method return a ordered TreeMap whose key is the name of author or businessman, value is a list containing the books or organization that person created. 
+	6. Finally I pass the two TreeMap to class QandAPrinter to output formated result. 
 
 The mapping that I use to map from Freebase properties to the entity properties of interest that you return. They are manully annotated. The map is as follows. Every two strings in a bracket are in mapping relations.
 	("Person?Name", "/type/object/name");
@@ -103,3 +109,8 @@ The mapping that I use to map from Freebase properties to the entity properties 
 	("Sports Team?Players Roster?Position", "/sports/sports_team_roster/position");
 	("Sports Team?Players Roster?Number", "/sports/sports_team_roster/number");
 	("Sports Team?Players Roster?From-To", "/sports/sports_team_roster/from");
+
+f) Your Freebase API Key
+key = AIzaSyD7zn47zSINj5uiePDUl4jZ3L4fJsmSIeY
+requests per second = 100
+
