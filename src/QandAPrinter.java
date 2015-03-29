@@ -79,7 +79,7 @@ public class QandAPrinter {
         printHyphen();
         int left = (98 - query.length()) / 2;
         int right = 98 - left - query.length();
-        System.out.printf("|%-" + left + "s%s%-" + right + "s\n", "", query, "");
+        System.out.printf("|%-" + left + "s%s%-" + right + "s|\n", "", query, "");
         printHyphen();
 
     }
@@ -90,25 +90,25 @@ public class QandAPrinter {
             StringBuilder output = new StringBuilder();
             output.append(count + ". " + aEntry.getKey() + " (as Author) created <" + nameList.get(0) + ">");
             //if the author has more than one books, then print the remaining books' name
-            for (int i = 1; i < nameList.size(); i++)
+            for (int i = 0; i < nameList.size(); i++)
                 output.append(", <" + nameList.get(i) + ">");
             output.append("\n");
             System.out.print(output.toString());
         }
         else{
-            System.out.printf("| %-20s", aEntry.getKey()+":");
-            System.out.println("|As                                | Creation                                |");
-            System.out.println("|                     -----------------------------------------------------------------------------");
-            for (int i = 1; i < nameList.size(); i++){
+            System.out.printf("| %-22s", aEntry.getKey()+":");
+            System.out.println("|As                              | Creation                                |");
+            System.out.println("|                       ---------------------------------------------------------------------------");
+            for (int i = 0; i < nameList.size(); i++){
                 String bookname = nameList.get(i);
                 if(bookname.length() > 39)
                     bookname = bookname.substring(0, 36) + "...";
-                if(i == 1){
-                    System.out.printf("|%-21s|Author                            |","");
+                if(i == 0){
+                    System.out.printf("|%-23s|Author                          |","");
                     System.out.printf(" %-39s |\n", bookname);
                 }
                 else{
-                    System.out.print("|                     |                                  |");
+                    System.out.print("|                       |                                |");
                     System.out.printf(" %-39s |\n", bookname);
                 }
             }
@@ -122,25 +122,25 @@ public class QandAPrinter {
             StringBuilder output = new StringBuilder();
             output.append(count + ". " + bEntry.getKey() + " (as Businessperson) created <" + nameList.get(0) + ">");
             //if the author has more than one books, then print the remaining books' name
-            for (int i = 1; i < nameList.size(); i++)
+            for (int i = 0; i < nameList.size(); i++)
                 output.append(", <" + nameList.get(i) + ">");
             output.append("\n");
             System.out.print(output.toString());
         }
         else{
-            System.out.printf("| %-20s", bEntry.getKey()+":");
-            System.out.println("|As                                | Creation                                |");
-            System.out.println("|                     -----------------------------------------------------------------------------");
-            for (int i = 1; i < nameList.size(); i++){
+            System.out.printf("| %-22s", bEntry.getKey()+":");
+            System.out.println("|As                              | Creation                                |");
+            System.out.println("|                       ---------------------------------------------------------------------------");
+            for (int i = 0; i < nameList.size(); i++){
                 String organName = nameList.get(i);
                 if(organName.length() > 39)
                     organName = organName.substring(0, 36) + "...";
-                if(i == 1){
-                    System.out.printf("|%-21s|Business Person                 |","");
+                if(i == 0){
+                    System.out.printf("|%-23s|Business Person                 |","");
                     System.out.printf(" %-39s |\n", organName);
                 }
                 else{
-                    System.out.print("|                     |                                  |");
+                    System.out.print("|                       |                                |");
                     System.out.printf(" %-39s |\n", organName);
                 }
             }
