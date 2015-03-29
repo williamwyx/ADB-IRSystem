@@ -415,6 +415,15 @@ public class FreeBaseAPI {
 											"/sports/sports_league_participation/league")
 									.getJSONArray("values").getJSONObject(0)
 									.getString("text");
+						} else if (FBProperty
+								.equals("/sports/sports_league/teams")) {
+							content = propertyInfo
+									.getJSONObject(i)
+									.getJSONObject("property")
+									.getJSONObject(
+											"/sports/sports_league_participation/team")
+									.getJSONArray("values").getJSONObject(0)
+									.getString("text");
 						} else if (propertyInfo.getJSONObject(i).has("value")) {
 							content = propertyInfo.getJSONObject(i).getString(
 									"value");
