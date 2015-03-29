@@ -33,8 +33,9 @@ b) List of Files
 
 =====================================================
 c) How to run the program
-就是如何使用run.sh 你写一下吧
-
+./run.sh -key <Freebase API key> -q <query> -t <infobox|question>
+./run.sh -key <Freebase API key> -f <file of queries> -t <infobox|question>
+./run.sh -key <Freebase API key>
 
 =====================================================
 d) Internal Design
