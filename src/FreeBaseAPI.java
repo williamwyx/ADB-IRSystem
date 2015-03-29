@@ -46,7 +46,7 @@ public class FreeBaseAPI {
 		}
 	}
 
-    public boolean QandA(String query){
+    public boolean QandA(String query, boolean interactivve){
         query = query.trim();
         query = query.toLowerCase();
         if(!query.startsWith("who created ")) {
@@ -99,7 +99,7 @@ public class FreeBaseAPI {
             authorsMap = extractAnswers(authors, "authors");
         if(businessPerson.length() > 0)
             businessMap = extractAnswers(businessPerson, "businessman");
-        QandAPrinter.printAnswer(authorsMap, businessMap);
+        QandAPrinter.printAnswer(query, authorsMap, businessMap, interactivve);
         return true;
     }
 

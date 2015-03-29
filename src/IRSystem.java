@@ -37,7 +37,7 @@ public class IRSystem {
 				fb.infobox(args[3].trim());
 				break;
 			case 2:
-				fb.QandA(args[3].trim());
+				fb.QandA(args[3].trim(), false);
 				break;
 			case 3:
 				fstream = new FileInputStream(args[3]);
@@ -61,7 +61,7 @@ public class IRSystem {
 				    	line = line.trim();
 				    	if (line.length() != 0) {
 				    		System.out.println("Question: " + line);
-				    		fb.QandA(line);
+				    		fb.QandA(line, false);
 				    		System.out.println("\n");
 				    	}
 				    }
@@ -87,7 +87,7 @@ public class IRSystem {
 		    
 		    if (query.startsWith("who created ")) {
 		    	System.out.println("Let me see...");
-		    	fb.QandA(query);
+		    	fb.QandA(query, true);
 		    	System.out.println("\n");
 		    } else {
 		    	System.out.println("Let me see...");
