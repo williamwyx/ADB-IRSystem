@@ -116,7 +116,7 @@ public class EntityProperties {
             put("Sports Team?Locations", "/sports/sports_team/location");
             put("Sports Team?Players Roster", "/sports/sports_team/roster");
             // Sub-Types
-            put("Actor?Films?Characters", "/film/performance/character");
+            put("Actor?Films?Character", "/film/performance/character");
             put("Actor?Films?Film Name", "/film/performance/film");
             put("Business Person?Leadership?Organization", "/organization/leadership/organization");
             put("Business Person?Leadership?Role", "/organization/leadership/role");

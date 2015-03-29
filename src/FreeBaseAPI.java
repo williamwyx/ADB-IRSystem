@@ -39,8 +39,9 @@ public class FreeBaseAPI {
 					break;
 			}
 			if (i == topics.length())
-				System.out.println("No related information about query [" + query + "] was found!");
-			
+				System.out.println("No related information about query ["
+						+ query + "] was found!");
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -103,39 +104,57 @@ public class FreeBaseAPI {
         return true;
     }
 
-    private TreeMap<String, ArrayList<String>> extractAnswers(JSONArray answerArray, String type){
-        HashMap<String, ArrayList<String>> answerHashMap = new HashMap<String, ArrayList<String>>(); //Key is author name or business name. arraylist stores books name or organization's name
+	private TreeMap<String, ArrayList<String>> extractAnswers(
+			JSONArray answerArray, String type) {
+		HashMap<String, ArrayList<String>> answerHashMap = new HashMap<String, ArrayList<String>>(); // Key
+																										// is
+																										// author
+																										// name
+																										// or
+																										// business
+																										// name.
+																										// arraylist
+																										// stores
+																										// books
+																										// name
+																										// or
+																										// organization's
+																										// name
 
-        for(int i = 0; i < answerArray.length(); i++) {
-            try {
-                JSONObject entry = answerArray.getJSONObject(i);
-                answerHashMap.put(entry.getString("name"), new ArrayList<String>()); //put the key into answers
-                /**
-                 * check the type and then put the book name or organization name into answers
-                 */
-                JSONArray names = null;
-                if(type.equals("authors"))
-                    names = entry.getJSONArray("/book/author/works_written");
-                if(type.equals("businessman"))
-                    names = entry.getJSONArray("/organization/organization_founder/organizations_founded");
-                ArrayList<String> nameList = answerHashMap.get(entry.getString("name"));
-                for(int j = 0; j < names.length(); j++){
-                    JSONObject tmp = names.getJSONObject(j);
-                    nameList.add(tmp.getString("a:name"));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        TreeMap<String, ArrayList<String>> answerTreeMap = new TreeMap<String, ArrayList<String>>(answerHashMap);
-        return answerTreeMap;
-    }
+		for (int i = 0; i < answerArray.length(); i++) {
+			try {
+				JSONObject entry = answerArray.getJSONObject(i);
+				answerHashMap.put(entry.getString("name"),
+						new ArrayList<String>()); // put the key into answers
+				/**
+				 * check the type and then put the book name or organization
+				 * name into answers
+				 */
+				JSONArray names = null;
+				if (type.equals("authors"))
+					names = entry.getJSONArray("/book/author/works_written");
+				if (type.equals("businessman"))
+					names = entry
+							.getJSONArray("/organization/organization_founder/organizations_founded");
+				ArrayList<String> nameList = answerHashMap.get(entry
+						.getString("name"));
+				for (int j = 0; j < names.length(); j++) {
+					JSONObject tmp = names.getJSONObject(j);
+					nameList.add(tmp.getString("a:name"));
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		TreeMap<String, ArrayList<String>> answerTreeMap = new TreeMap<String, ArrayList<String>>(
+				answerHashMap);
+		return answerTreeMap;
+	}
 
+	public void setFBKey(String key) {
+		properties.setProperty("API_KEY", key);
+	}
 
-    public void setFBKey(String key) {
-    	properties.setProperty("API_KEY", key);
-    }
-    
 	private void setFBKeyFromFile() {
 		try {
 			properties.load(new FileInputStream(
@@ -145,27 +164,27 @@ public class FreeBaseAPI {
 		}
 	}
 
-    private JSONArray queryFB(String query){
-        JSONArray results = null;
-        try {
-            HttpTransport httpTransport = new NetHttpTransport();
-            HttpRequestFactory requestFactory = httpTransport
-                    .createRequestFactory();
-            GenericUrl url = new GenericUrl(
-                    "https://www.googleapis.com/freebase/v1/mqlread");
-            url.put("query", query);
-            url.put("key", properties.get("API_KEY"));
-            HttpRequest request = requestFactory.buildGetRequest(url);
-            HttpResponse httpResponse = request.execute();
-            JSONObject response = new JSONObject(new JSONTokener(
-                    httpResponse.parseAsString()));
-            // System.out.println(response.toString());
-            results = response.getJSONArray("result");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return results;
-    }
+	private JSONArray queryFB(String query) {
+		JSONArray results = null;
+		try {
+			HttpTransport httpTransport = new NetHttpTransport();
+			HttpRequestFactory requestFactory = httpTransport
+					.createRequestFactory();
+			GenericUrl url = new GenericUrl(
+					"https://www.googleapis.com/freebase/v1/mqlread");
+			url.put("query", query);
+			url.put("key", properties.get("API_KEY"));
+			HttpRequest request = requestFactory.buildGetRequest(url);
+			HttpResponse httpResponse = request.execute();
+			JSONObject response = new JSONObject(new JSONTokener(
+					httpResponse.parseAsString()));
+			// System.out.println(response.toString());
+			results = response.getJSONArray("result");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return results;
+	}
 
 	private JSONArray searchFB(String query) {
 		JSONArray results = null;
@@ -201,7 +220,7 @@ public class FreeBaseAPI {
 			HttpResponse httpResponse = request.execute();
 			JSONObject response = new JSONObject(new JSONTokener(
 					httpResponse.parseAsString()));
-			//System.out.println(response.toString());
+			// System.out.println(response.toString());
 			return parseAndDisplay(response);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -297,17 +316,19 @@ public class FreeBaseAPI {
 											subTypePath.length() - 4) + "to";
 									if (propertyInfo.getJSONObject(i)
 											.getJSONObject("property")
-											.has(toPath) && propertyInfo
-											.getJSONObject(i)
-											.getJSONObject("property")
-											.getJSONObject(toPath).getInt("count") > 0) {
+											.has(toPath)
+											&& propertyInfo.getJSONObject(i)
+													.getJSONObject("property")
+													.getJSONObject(toPath)
+													.getInt("count") > 0) {
 										JSONArray toInfo = propertyInfo
 												.getJSONObject(i)
 												.getJSONObject("property")
 												.getJSONObject(toPath)
 												.getJSONArray("values");
-										value.append("/" + toInfo.getJSONObject(0)
-												.getString("text"));
+										value.append("/"
+												+ toInfo.getJSONObject(0)
+														.getString("text"));
 									} else {
 										value.append("/now");
 									}
@@ -338,15 +359,60 @@ public class FreeBaseAPI {
 									.getJSONArray("values").getJSONObject(0)
 									.getString("text");
 						} else if (FBProperty.equals("/people/person/spouse_s")) {
-							content = propertyInfo.getJSONObject(i)
+							StringBuilder spouse = new StringBuilder();
+							String name = propertyInfo.getJSONObject(i)
 									.getJSONObject("property")
 									.getJSONObject("/people/marriage/spouse")
 									.getJSONArray("values").getJSONObject(0)
 									.getString("text");
-						} else if (FBProperty.equals("/sports/sports_team/league")) {
-							content = propertyInfo.getJSONObject(i)
+							spouse.append(name);
+							if (propertyInfo.getJSONObject(i)
 									.getJSONObject("property")
-									.getJSONObject("/sports/sports_league_participation/league")
+									.getJSONObject("/people/marriage/from")
+									.getInt("count") > 0) {
+								String from = propertyInfo.getJSONObject(i)
+										.getJSONObject("property")
+										.getJSONObject("/people/marriage/from")
+										.getJSONArray("values")
+										.getJSONObject(0).getString("text");
+								String to = "now";
+								if (propertyInfo.getJSONObject(i)
+										.getJSONObject("property")
+										.getJSONObject("/people/marriage/to")
+										.getInt("count") > 0) {
+									to = propertyInfo
+											.getJSONObject(i)
+											.getJSONObject("property")
+											.getJSONObject(
+													"/people/marriage/to")
+											.getJSONArray("values")
+											.getJSONObject(0).getString("text");
+								}
+								spouse.append(" (" + from + " - " + to + ")");
+							}
+							if (propertyInfo
+									.getJSONObject(i)
+									.getJSONObject("property")
+									.getJSONObject(
+											"/people/marriage/location_of_ceremony")
+									.getInt("count") > 0) {
+								String at = propertyInfo
+										.getJSONObject(i)
+										.getJSONObject("property")
+										.getJSONObject(
+												"/people/marriage/location_of_ceremony")
+										.getJSONArray("values")
+										.getJSONObject(0).getString("text");
+								spouse.append(" @ " + at);
+							}
+							content = spouse.toString();
+						} else if (FBProperty
+								.equals("/sports/sports_team/league")) {
+							content = propertyInfo
+									.getJSONObject(i)
+									.getJSONObject("property")
+									.getJSONObject(
+											"/sports/sports_league_participation/league")
 									.getJSONArray("values").getJSONObject(0)
 									.getString("text");
 						} else if (propertyInfo.getJSONObject(i).has("value")) {
